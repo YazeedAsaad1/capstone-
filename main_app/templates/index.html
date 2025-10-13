@@ -1,0 +1,16 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<h1>My list</h1>
+
+<section class="card-container">
+  {% for item in lists %}
+  <a href="{% url 'detail' item.id %}">
+    <h2 class="card-title">{{ item.task }}</h2>
+    <p><small>{{ item.description }}</small></p>
+  </a>
+  {% endfor %}
+</section>
+
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+    <h1>{{ item.task }}</h1>
+    <p>{{ item.description }}</p>
+    <p>{{ item.date }}</p>
+    {% if item.is_complete %}
+    <p>Completed</p>
+    {% else %}
+    <p>Not completed</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/png" href="" />
+    <title>To Do List</title>
+    {% block head %} 
+    {% endblock %}
+  </head>
+  <body>
+    <header>
+      <div class="header-logo-container">
+        <a href="/">
+          <img src="https://i.pinimg.com/474x/d9/67/6a/d9676ac12198515418292f3f413e0ff1.jpg" alt="To do list Logo" />
+        </a>
+      </div>
+      <nav>
+        <ul>
+            <li><a href="{% url 'list' %}">My List</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'create' %}">Create a task</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+     {% block content %} 
+     {% endblock %}
+     </main>
+  </body>
+</html>
