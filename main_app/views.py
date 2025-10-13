@@ -24,4 +24,4 @@ class TasktUpdate(UpdateView):
 
 class TaskDelete(DeleteView):
     model = List
-    success_url = '/list/'
+    success_url = '/'
