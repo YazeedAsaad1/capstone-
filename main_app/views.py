@@ -17,4 +17,4 @@ def detail(request, item_id):
 class TaskCreate(CreateView):
     model = List
     fields = '__all__'
-    success_url = '/'
+
