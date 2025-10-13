@@ -9,4 +9,6 @@
     {% else %}
     <p>Not completed</p>
     {% endif %}
+    <a href="{% url 'task-update' item.id %}">Edit</a>
+    <a href="{% url 'task-delete' item.id %}">Delete</a>
 {% endblock %}

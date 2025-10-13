@@ -2,7 +2,11 @@
 
 {% block content %}
 
-<h1>Create a task</h1>
+{% if list %}
+    <h1>Edit {{ list.task }}</h1>
+  {% else %}
+    <h1>Create a Task</h1>
+  {% endif %}
 
 <form action="" method="post">
   {% csrf_token %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import List
 
 # Define the home view function
@@ -18,3 +18,10 @@ class TaskCreate(CreateView):
     model = List
     fields = '__all__'
 
+class TasktUpdate(UpdateView):
+    model = List
+    fields = ['task', 'date', 'description', 'is_complete']
+
+class TaskDelete(DeleteView):
+    model = List
+    success_url = '/list/'
