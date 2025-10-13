@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:pk>/update/', views.TasktUpdate.as_view(), name='task-update'),
     path('<int:pk>/delete/', views.TaskDelete.as_view(), name='task-delete'),
     path('accounts/login/', views.Home.as_view(), name='home'),
+    path('accounts/signup/', views.signup, name='signup'),
 ]
