@@ -1,14 +1,42 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+
+{% block title %}{{ item.task }} - To Do List{% endblock %}
 
 {% block content %}
-    <h1>{{ item.task }}</h1>
-    <p>{{ item.description }}</p>
-    <p>{{ item.date }}</p>
-    {% if item.is_complete %}
-    <p>Completed</p>
-    {% else %}
-    <p>Not completed</p>
-    {% endif %}
-    <a href="{% url 'task-update' item.id %}">Edit</a>
-    <a href="{% url 'task-delete' item.id %}">Delete</a>
+
+<div class="card fade-in">
+  <div class="task-header mb-4">
+    <h1 class="task-title">{{ item.task }}</h1>
+    <div class="task-actions">
+      <a href="{% url 'task-update' item.id %}" class="btn btn-secondary" aria-label="Edit task">Edit</a>
+      <a href="{% url 'task-delete' item.id %}" class="btn btn-danger" aria-label="Delete task">Delete</a>
+    </div>
+  </div>
+
+  {% if item.description %}
+    <div class="task-description mb-4">
+      <h3>Description</h3>
+      <p>{{ item.description }}</p>
+    </div>
+  {% endif %}
+
+  <div class="task-meta">
+    <div class="task-date">
+      <strong>Created:</strong> {{ item.date|date:"F d, Y \a\t g:i A" }}
+    </div>
+
+    <div class="task-status mt-2">
+      {% if item.is_complete %}
+        <span class="task-priority priority-low">✅ Completed</span>
+      {% else %}
+        <span class="task-priority priority-medium">⏳ In Progress</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <a href="{% url 'list' %}" class="btn btn-secondary">← Back to Tasks</a>
+  </div>
+</div>
+
 {% endblock %}

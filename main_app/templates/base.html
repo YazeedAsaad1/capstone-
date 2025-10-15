@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,40 +6,78 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/png" href="" />
-    <title>To Do List</title>
-    {% block head %} 
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=6">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}?v=6">
+
+    <title>{% block title %}To Do List{% endblock %}</title>
+    {% block head %}
     {% endblock %}
   </head>
   <body>
     <header>
-      <div class="header-logo-container">
-        <a href="/">
-          <img src="https://i.pinimg.com/474x/d9/67/6a/d9676ac12198515418292f3f413e0ff1.jpg" alt="To do list Logo" />
-        </a>
+      <div class="header-container">
+        <div class="header-logo-container">
+          <a href="/" aria-label="Go to homepage">
+            <img src="https://i.pinimg.com/474x/d9/67/6a/d9676ac12198515418292f3f413e0ff1.jpg" alt="To do list Logo" />
+          </a>
+        </div>
+        <nav role="navigation" aria-label="Main navigation">
+          <ul>
+              {% if user.is_authenticated %}
+              <li><a href="{% url 'list' %}" aria-label="View my task list">My List</a></li>
+              <li><a href="{% url 'create' %}" aria-label="Create a new task">Create a task</a></li>
+              <li><a href="{% url 'about' %}" aria-label="About this application">About</a></li>
+              <li>
+                  <form id="logout-form" method="post" action="{% url 'logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" aria-label="Log out of your account">Log out</button>
+                  </form>
+              </li>
+              {% else %}
+              <li><a href="{% url 'about' %}" aria-label="About this application">About</a></li>
+              <li><a href="{% url 'home' %}" aria-label="Log in to your account">Login</a></li>
+              <li><a href="{% url 'signup' %}" aria-label="Create a new account">Signup</a></li>
+              {% endif %}
+          </ul>
+        </nav>
       </div>
-      <nav>
-        <ul>
-            {% if user.is_authenticated %}
-            <li><a href="{% url 'list' %}">My List</a></li>
-            <li><a href="{% url 'create' %}">Create a task</a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
-            <li>
-                <form id="logout-form" method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit">Log out</button>
-                </form>
-            </li>
-            {% else %}
-            <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'home' %}">Login</a></li>
-            <li><a href="{% url 'signup' %}">Signup</a></li>
-            {% endif %}
-        </ul>
-      </nav>
     </header>
-    <main>
-     {% block content %} 
-     {% endblock %}
-     </main>
+
+    <main role="main">
+      <div class="container">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+      </div>
+    </main>
+
+    <footer role="contentinfo">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="{% url 'about' %}">About</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Contact</a>
+        </div>
+        <p>&copy; {% now "Y" %} To Do List. Built with Django.</p>
+      </div>
+    </footer>
+
+    {% block scripts %}
+    {% endblock %}
   </body>
 </html>

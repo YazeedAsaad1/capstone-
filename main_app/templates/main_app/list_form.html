@@ -1,19 +1,56 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if list %}
+    Edit Task - To Do List
+  {% else %}
+    Create Task - To Do List
+  {% endif %}
+{% endblock %}
 
 {% block content %}
 
-{% if list %}
-    <h1>Edit {{ list.task }}</h1>
-  {% else %}
-    <h1>Create a Task</h1>
-  {% endif %}
+<div class="card fade-in">
+  <div class="text-center mb-4">
+    {% if list %}
+      <h1>Edit Task</h1>
+      <p>Update your task details below.</p>
+    {% else %}
+      <h1>Create a New Task</h1>
+      <p>Add a new task to stay organized and productive.</p>
+    {% endif %}
+  </div>
 
-<form action="" method="post">
-  {% csrf_token %}
-  <table>
-    {{ form.as_table }}
-  </table>
-  <button type="submit">Submit!</button>
-</form>
+  <form action="" method="post" class="task-form">
+    {% csrf_token %}
+
+    {% for field in form %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}
+          <small class="form-help">{{ field.help_text }}</small>
+        {% endif %}
+        {% if field.errors %}
+          <div class="alert alert-error">
+            {% for error in field.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <div class="form-group">
+      {% if list %}
+        <button type="submit" class="btn btn-primary">Update Task</button>
+        <a href="{% url 'detail' list.id %}" class="btn btn-secondary">Cancel</a>
+      {% else %}
+        <button type="submit" class="btn btn-primary">Create Task</button>
+        <a href="{% url 'list' %}" class="btn btn-secondary">Cancel</a>
+      {% endif %}
+    </div>
+  </form>
+</div>
 
 {% endblock %}
