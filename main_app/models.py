@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class List(models.Model):
     task = models.CharField(max_length=100)
     date = models.DateTimeField()
-    description = models.TextField(max_length=250)
+    description = models.TextField(max_length=2500)
     is_complete = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

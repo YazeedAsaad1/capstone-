@@ -33,7 +33,7 @@
 
           <div class="task-meta">
             <div class="task-date">
-              <span>Created: {{ item.created_at|date:"M d, Y" }}</span>
+              <!-- Date field removed since created_at doesn't exist in model -->
             </div>
             {% if item.priority %}
               <span class="task-priority priority-{{ item.priority|lower }}">

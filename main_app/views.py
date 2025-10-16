@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django import forms
 
 # Define the home view function
 def about(request):
@@ -13,7 +14,7 @@ def about(request):
 
 @login_required
 def list(request):
-    list = List.objects.filter(user=request.user)
+    list = List.objects.filter(user=request.user).order_by('-id')
     return render(request, 'index.html', {'lists': list})
 
 @login_required
@@ -25,6 +26,11 @@ class TaskCreate(LoginRequiredMixin, CreateView):
     model = List
     fields = ['task', 'date', 'description', 'is_complete']
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['date'].widget = forms.DateTimeInput(attrs={'type': 'date'})
+        return form
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
@@ -32,6 +38,11 @@ class TaskCreate(LoginRequiredMixin, CreateView):
 class TasktUpdate(LoginRequiredMixin, UpdateView):
     model = List
     fields = ['task', 'date', 'description', 'is_complete']
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['date'].widget = forms.DateTimeInput(attrs={'type': 'date'})
+        return form
 
 class TaskDelete(LoginRequiredMixin, DeleteView):
     model = List
